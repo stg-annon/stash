@@ -418,6 +418,14 @@ func stringCriterionHandler(c *models.StringCriterionInput, column string) crite
 					f.addWhere("(" + column + " IS NULL OR TRIM(" + column + ") = '')")
 				case models.CriterionModifierNotNull:
 					f.addWhere("(" + column + " IS NOT NULL AND TRIM(" + column + ") != '')")
+				case models.CriterionModifierBetween:
+					f.addWhere(fmt.Sprintf("%s BETWEEN ? AND ?", column), c.Value, c.Value2)
+				case models.CriterionModifierNotBetween:
+					f.addWhere(fmt.Sprintf("%s NOT BETWEEN ? AND ?", column), c.Value, c.Value2)
+				case models.CriterionModifierLessThan:
+					f.addWhere(fmt.Sprintf("%s < ?", column), c.Value)
+				case models.CriterionModifierGreaterThan:
+					f.addWhere(fmt.Sprintf("%s > ?", column), c.Value)
 				default:
 					panic("unsupported string filter modifier")
 				}

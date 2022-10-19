@@ -51,6 +51,8 @@ input PerformerFilterType {
   filter_favorites: Boolean
   """Filter by birth year"""
   birth_year: IntCriterionInput
+  """Filter by birthdate"""
+  birthdate: StringCriterionInput
   """Filter by age"""
   age: IntCriterionInput
   """Filter by ethnicity"""
@@ -390,6 +392,7 @@ enum CriterionModifier {
 
 input StringCriterionInput {
   value: String!
+  value2: String
   modifier: CriterionModifier!
 }
 

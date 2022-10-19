@@ -71,6 +71,8 @@ type PerformerFilterType struct {
 	FilterFavorites *bool `json:"filter_favorites"`
 	// Filter by birth year
 	BirthYear *IntCriterionInput `json:"birth_year"`
+	// Filter by birth year
+	BirthDate *StringCriterionInput `json:"birthdate"`
 	// Filter by age
 	Age *IntCriterionInput `json:"age"`
 	// Filter by ethnicity

@@ -318,6 +318,7 @@ func (qb *performerQueryBuilder) makeFilter(ctx context.Context, filter *models.
 	query.handleCriterion(ctx, performerSceneCountCriterionHandler(qb, filter.SceneCount))
 	query.handleCriterion(ctx, performerImageCountCriterionHandler(qb, filter.ImageCount))
 	query.handleCriterion(ctx, performerGalleryCountCriterionHandler(qb, filter.GalleryCount))
+	query.handleCriterion(ctx, stringCriterionHandler(filter.BirthDate, tableName+".birthdate"))
 
 	return query
 }
