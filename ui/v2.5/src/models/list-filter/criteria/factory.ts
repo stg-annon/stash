@@ -1,12 +1,14 @@
 /* eslint-disable consistent-return, default-case */
 import {
   StringCriterion,
+  IStringCriterion,
   NumberCriterion,
   DurationCriterion,
   NumberCriterionOption,
   MandatoryStringCriterionOption,
   MandatoryNumberCriterionOption,
   StringCriterionOption,
+  IStringCriterionOption,
   ILabeledIdCriterion,
   BooleanCriterion,
   BooleanCriterionOption,
@@ -162,6 +164,8 @@ export function makeCriteria(type: CriterionType = "none") {
     case "director":
     case "synopsis":
       return new StringCriterion(new StringCriterionOption(type, type));
+    case "birthdate":
+      return new IStringCriterion(new IStringCriterionOption(type, type));
     case "interactive":
       return new InteractiveCriterion();
     case "captions":

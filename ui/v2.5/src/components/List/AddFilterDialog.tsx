@@ -9,6 +9,7 @@ import {
   IHierarchicalLabeledIdCriterion,
   NumberCriterion,
   ILabeledIdCriterion,
+  IStringCriterion,
 } from "src/models/list-filter/criteria/criterion";
 import {
   NoneCriterion,
@@ -20,10 +21,12 @@ import { FormattedMessage, useIntl } from "react-intl";
 import {
   criterionIsHierarchicalLabelValue,
   criterionIsNumberValue,
+  criterionIsStringValue,
   CriterionType,
 } from "src/models/list-filter/types";
 import { DurationFilter } from "./Filters/DurationFilter";
 import { NumberFilter } from "./Filters/NumberFilter";
+import { StringFilter } from "./Filters/StringFilter";
 import { LabeledIdFilter } from "./Filters/LabeledIdFilter";
 import { HierarchicalLabelValueFilter } from "./Filters/HierarchicalLabelValueFilter";
 import { OptionsFilter } from "./Filters/OptionsFilter";
@@ -150,6 +153,7 @@ export const AddFilterDialog: React.FC<IAddFilterProps> = ({
         options &&
         !criterionIsHierarchicalLabelValue(criterion.value) &&
         !criterionIsNumberValue(criterion.value) &&
+        !criterionIsStringValue(criterion.value) &&
         !Array.isArray(criterion.value)
       ) {
         defaultValue.current = criterion.value;
@@ -171,6 +175,11 @@ export const AddFilterDialog: React.FC<IAddFilterProps> = ({
       if (criterion instanceof NumberCriterion) {
         return (
           <NumberFilter criterion={criterion} onValueChanged={onValueChanged} />
+        );
+      }
+      if (criterion instanceof IStringCriterion) {
+        return (
+          <StringFilter criterion={criterion} onValueChanged={onValueChanged} />
         );
       }
       return (

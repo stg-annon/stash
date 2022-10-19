@@ -7,6 +7,7 @@ import {
   IntCriterionInput,
   MultiCriterionInput,
   PHashDuplicationCriterionInput,
+  StringCriterionInput,
 } from "src/core/generated-graphql";
 import DurationUtils from "src/utils/duration";
 import {
@@ -16,11 +17,13 @@ import {
   ILabeledValue,
   INumberValue,
   IOptionType,
+  IStringValue,
 } from "../types";
 
 export type Option = string | number | IOptionType;
 export type CriterionValue =
   | string
+  | IStringValue
   | ILabeledId[]
   | IHierarchicalLabelValue
   | INumberValue;
@@ -217,6 +220,80 @@ export class StringCriterion extends Criterion<string> {
 
   public getLabelValue() {
     return this.value;
+  }
+}
+
+export class IStringCriterionOption extends CriterionOption {
+  constructor(
+    messageID: string,
+    value: CriterionType,
+    parameterName?: string,
+    options?: Option[]
+  ) {
+    super({
+      messageID,
+      type: value,
+      parameterName,
+      modifierOptions: [
+        CriterionModifier.Equals,
+        CriterionModifier.NotEquals,
+        CriterionModifier.Includes,
+        CriterionModifier.Excludes,
+        CriterionModifier.IsNull,
+        CriterionModifier.NotNull,
+        CriterionModifier.MatchesRegex,
+        CriterionModifier.NotMatchesRegex,
+        CriterionModifier.Between,
+        CriterionModifier.NotBetween,
+        CriterionModifier.GreaterThan,
+        CriterionModifier.LessThan
+      ],
+      defaultModifier: CriterionModifier.Equals,
+      options,
+      inputType: "text",
+    });
+  }
+}
+
+export function createIStringCriterionOption(
+  value: CriterionType,
+  messageID?: string,
+  parameterName?: string
+) {
+  return new IStringCriterionOption(
+    messageID ?? value,
+    value,
+    parameterName ?? messageID ?? value
+  );
+}
+
+export class IStringCriterion extends Criterion<IStringValue> {
+  public get value(): IStringValue {
+    return this._value;
+  }
+  public set value(value: IStringValue) {
+    this._value = value;
+  }
+  protected toCriterionInput(): StringCriterionInput {
+    return {
+      modifier: this.modifier,
+      value: this.value.value,
+      value2: this.value.value2,
+    };
+  }
+  public getLabelValue() {
+    const { value, value2 } = this.value;
+    if (
+      this.modifier === CriterionModifier.Between ||
+      this.modifier === CriterionModifier.NotBetween
+    ) {
+      return `${value}, ${value2 ?? ""}`;
+    } else {
+      return `${value}`;
+    }
+  }
+  constructor(type: CriterionOption) {
+    super(type, { value: "", value2: undefined });
   }
 }
 

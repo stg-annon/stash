@@ -2,6 +2,7 @@ import {
   createNumberCriterionOption,
   createMandatoryNumberCriterionOption,
   createStringCriterionOption,
+  createIStringCriterionOption,
   createBooleanCriterionOption,
 } from "./criteria/criterion";
 import { FavoriteCriterionOption } from "./criteria/favorite";
@@ -52,6 +53,7 @@ const numberCriteria: CriterionType[] = [
 ];
 
 const stringCriteria: CriterionType[] = [
+  "url",
   "name",
   "details",
   "ethnicity",
@@ -75,7 +77,6 @@ const criterionOptions = [
   TagsCriterionOption,
   RatingCriterionOption,
   StudiosCriterionOption,
-  createStringCriterionOption("url"),
   createMandatoryNumberCriterionOption("tag_count"),
   createMandatoryNumberCriterionOption("scene_count"),
   createMandatoryNumberCriterionOption("image_count"),
@@ -83,6 +84,7 @@ const criterionOptions = [
   createBooleanCriterionOption("ignore_auto_tag"),
   ...numberCriteria.map((c) => createNumberCriterionOption(c)),
   ...stringCriteria.map((c) => createStringCriterionOption(c)),
+  createIStringCriterionOption("birthdate"),
 ];
 export const PerformerListFilterOptions = new ListFilterOptions(
   defaultSortBy,

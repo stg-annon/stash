@@ -28,6 +28,11 @@ export interface INumberValue {
   value2: number | undefined;
 }
 
+export interface IStringValue {
+  value: string;
+  value2: string | undefined;
+}
+
 export interface IPHashDuplicationValue {
   duplicated: boolean;
   distance?: number; // currently not implemented
@@ -44,6 +49,13 @@ export function criterionIsNumberValue(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any
 ): value is INumberValue {
+  return typeof value === "object" && "value" in value && "value2" in value;
+}
+
+export function criterionIsStringValue(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any
+): value is IStringValue {
   return typeof value === "object" && "value" in value && "value2" in value;
 }
 
@@ -124,4 +136,5 @@ export type CriterionType =
   | "performer_age"
   | "duplicated"
   | "ignore_auto_tag"
-  | "file_count";
+  | "file_count"
+  | "birthdate";
